@@ -90,18 +90,33 @@ class SimplePrecedence {
             addL(nonTerminal);
             addR(nonTerminal);
 
-            // По-хорошему надо проверять, изменилось ли что-то
-            // и после этого переставать повторные попытки заполнения
-            for (let l = 0; l < 1000; l++) {
+            let changed = true;
+            while (changed) {
+                changed = false;
+
                 for (const k of L.values()) {
-                    if (this.#nonTerminals.includes(k)) {
-                        addL(k);
+                    if (!this.#nonTerminals.includes(k)) {
+                        continue;
+                    }
+
+                    const size = L.size;
+                    addL(k);
+
+                    if (L.size !== size) {
+                        changed = true;
                     }
                 }
 
                 for (const k of R.values()) {
-                    if (this.#nonTerminals.includes(k)) {
-                        addR(k);
+                    if (!this.#nonTerminals.includes(k)) {
+                        continue;
+                    }
+
+                    const size = R.size;
+                    addR(k);
+
+                    if (R.size !== size) {
+                        changed = true;
                     }
                 }
             }
