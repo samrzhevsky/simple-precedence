@@ -181,14 +181,12 @@ class SimplePrecedence {
             // $ < X
             if (this.#LR[this.#start].L.has(X)) {
                 this.#checkAndSet(this.#end, X, '<');
-				continue;
             }
 
             for (const Y of this.#all) {
                 // Y > $
                 if (X === this.#end && this.#LR[this.#start].R.has(Y)) {
                     this.#checkAndSet(Y, X, '>');
-					continue;
                 }
 
                 for (const rule of this.#rules) {
